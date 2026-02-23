@@ -31,20 +31,34 @@ export default function ContactPage() {
     const service = data.get("service") as string;
     const message = data.get("message") as string;
 
-    // Send via EmailJS
+    const templateParams = {
+      from_name: name,
+      from_email: email,
+      phone: phone,
+      service: service,
+      message: message || "No additional message.",
+    };
+
+    // Send via EmailJS — notification + auto-reply
     try {
+      // 1. Send notification email to you
       await emailjs.send(
         emailjsConfig.serviceId,
         emailjsConfig.templateId,
-        {
-          from_name: name,
-          from_email: email,
-          phone: phone,
-          service: service,
-          message: message || "No additional message.",
-        },
+        templateParams,
         emailjsConfig.publicKey
       );
+
+      // 2. Send auto-reply to the visitor
+      if (emailjsConfig.autoreplyTemplateId) {
+        emailjs.send(
+          emailjsConfig.serviceId,
+          emailjsConfig.autoreplyTemplateId,
+          templateParams,
+          emailjsConfig.publicKey
+        );
+      }
+
       setStatus("sent");
     } catch {
       // If EmailJS fails, fall back to WhatsApp
