@@ -3,14 +3,12 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Gift, ArrowUpRight, MessageCircle, Mail } from "lucide-react";
-import emailjs from "@emailjs/browser";
-import { emailjsConfig } from "@/lib/emailjs";
 import { siteConfig } from "@/lib/config";
 
 export default function DiscountPopup() {
   const [show, setShow] = useState(false);
   const [step, setStep] = useState<"offer" | "form" | "success">("offer");
-  const [sending, setSending] = useState(false);
+  const [formName, setFormName] = useState("");
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("thenexturl_discount_seen");
@@ -25,40 +23,16 @@ export default function DiscountPopup() {
     localStorage.setItem("thenexturl_discount_seen", "true");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSending(true);
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const name = data.get("name") as string;
-    const email = data.get("email") as string;
-    const phone = data.get("phone") as string;
-
-    // Try to send via EmailJS
-    try {
-      await emailjs.send(
-        emailjsConfig.serviceId,
-        emailjsConfig.discountTemplateId,
-        {
-          from_name: name,
-          from_email: email,
-          phone: phone,
-          message: "Visitor claimed the 10% first-visit discount offer.",
-        },
-        emailjsConfig.publicKey
-      );
-    } catch {
-      // EmailJS not configured yet — silently continue
-    }
-
-    setSending(false);
+    const data = new FormData(e.currentTarget);
+    setFormName(data.get("name") as string);
     setStep("success");
     localStorage.setItem("thenexturl_discount_seen", "true");
   };
 
-  const openWhatsApp = (name: string) => {
-    const msg = `Hi, I'm ${name}. I just claimed the 10% discount offer from your website. I'd like to discuss a project!`;
+  const openWhatsApp = () => {
+    const msg = `Hi, I'm ${formName || "there"}. I just claimed the 10% discount offer (WELCOME10) from your website. I'd like to discuss a project!`;
     window.open(
       `${siteConfig.whatsapp}?text=${encodeURIComponent(msg)}`,
       "_blank"
@@ -144,7 +118,7 @@ export default function DiscountPopup() {
                       Claim Your 10% Discount
                     </h3>
                     <p className="text-text-light text-sm mt-2 text-center">
-                      Enter your details and we&apos;ll apply the discount.
+                      Enter your details and connect with us directly.
                     </p>
 
                     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -172,11 +146,10 @@ export default function DiscountPopup() {
 
                       <button
                         type="submit"
-                        disabled={sending}
-                        className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3.5 rounded-xl font-semibold transition-all text-sm w-full justify-center disabled:opacity-60 hover:shadow-lg hover:shadow-primary/25"
+                        className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3.5 rounded-xl font-semibold transition-all text-sm w-full justify-center hover:shadow-lg hover:shadow-primary/25"
                       >
-                        {sending ? "Sending..." : "Get My Discount"}
-                        {!sending && <ArrowUpRight size={16} />}
+                        Get My Discount
+                        <ArrowUpRight size={16} />
                       </button>
                     </form>
                   </div>
@@ -198,7 +171,7 @@ export default function DiscountPopup() {
 
                     <div className="mt-6 space-y-3">
                       <button
-                        onClick={() => openWhatsApp("there")}
+                        onClick={openWhatsApp}
                         className="flex items-center gap-3 w-full p-4 bg-[#25D366]/10 border border-[#25D366]/20 rounded-xl hover:bg-[#25D366]/20 transition-colors"
                       >
                         <MessageCircle
