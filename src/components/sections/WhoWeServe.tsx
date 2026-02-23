@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   GraduationCap,
@@ -9,6 +10,7 @@ import {
   UtensilsCrossed,
   Building2,
 } from "lucide-react";
+import { images } from "@/lib/images";
 
 const industries = [
   {
@@ -16,36 +18,42 @@ const industries = [
     description: "ERP systems, portals, and automation",
     icon: GraduationCap,
     color: "bg-blue-50 text-blue-600",
+    image: images.schools,
   },
   {
     name: "Coaching Institutes",
     description: "Batch management and student portals",
     icon: BookOpen,
     color: "bg-purple-50 text-purple-600",
+    image: images.coaching,
   },
   {
     name: "Local Businesses",
     description: "Websites, catalogs, and online presence",
     icon: Store,
     color: "bg-green-50 text-green-600",
+    image: images.business,
   },
   {
     name: "Startups",
     description: "MVPs, dashboards, and SaaS platforms",
     icon: Rocket,
     color: "bg-orange-50 text-orange-600",
+    image: images.startup,
   },
   {
     name: "Restaurants & Hospitality",
     description: "POS, booking, and menu management",
     icon: UtensilsCrossed,
     color: "bg-red-50 text-red-600",
+    image: images.restaurant,
   },
   {
     name: "Enterprises",
     description: "Custom software and integrations",
     icon: Building2,
     color: "bg-indigo-50 text-indigo-600",
+    image: images.enterprise,
   },
 ];
 
@@ -75,17 +83,34 @@ export default function WhoWeServe() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="group bg-white rounded-2xl p-8 border border-border hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 transition-all"
+                className="group bg-white rounded-2xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 transition-all"
               >
-                <div
-                  className={`w-14 h-14 rounded-xl flex items-center justify-center ${industry.color} mb-5`}
-                >
-                  <Icon size={24} />
+                {/* Image */}
+                <div className="relative h-44 overflow-hidden">
+                  <Image
+                    src={industry.image}
+                    alt={industry.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  <div
+                    className={`absolute top-4 left-4 w-10 h-10 rounded-lg flex items-center justify-center ${industry.color} shadow-sm`}
+                  >
+                    <Icon size={18} />
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold text-dark">{industry.name}</h3>
-                <p className="text-text-light text-sm mt-2">
-                  {industry.description}
-                </p>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-dark">
+                    {industry.name}
+                  </h3>
+                  <p className="text-text-light text-sm mt-2">
+                    {industry.description}
+                  </p>
+                </div>
               </motion.div>
             );
           })}

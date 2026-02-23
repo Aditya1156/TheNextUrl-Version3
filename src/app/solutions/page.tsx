@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -10,6 +11,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
 } from "lucide-react";
+import { images } from "@/lib/images";
 
 const allSolutions = [
   {
@@ -20,6 +22,7 @@ const allSolutions = [
     subtitle: "Fast. SEO-optimized. Mobile-first.",
     description:
       "We build high-performance websites using Next.js, React, and modern web technologies. Every site is optimized for speed, SEO, and mobile responsiveness from day one.",
+    image: images.webDev,
     features: [
       "Server-side rendering for SEO",
       "Mobile-first responsive design",
@@ -37,6 +40,7 @@ const allSolutions = [
     subtitle: "Attendance. Fees. Payroll. Automation.",
     description:
       "Custom-built management systems for schools, colleges, and institutions. Automate attendance, fees, payroll, and reporting with a single unified platform.",
+    image: images.erp,
     features: [
       "Student/Staff attendance tracking",
       "Fee management & payment gateway",
@@ -54,6 +58,7 @@ const allSolutions = [
     subtitle: "Sell online. Take bookings. Manage operations.",
     description:
       "Full-featured online stores and booking systems with payment processing, inventory management, and customer management built in.",
+    image: images.ecommerce,
     features: [
       "Product catalog & inventory",
       "Secure payment processing",
@@ -71,6 +76,7 @@ const allSolutions = [
     subtitle: "Android & iOS from a single codebase.",
     description:
       "Native-quality mobile applications built with React Native. Deploy to both Android and iOS from one codebase, saving time and cost.",
+    image: images.mobile,
     features: [
       "Single codebase for Android & iOS",
       "Native-quality performance",
@@ -105,9 +111,8 @@ export default function SolutionsPage() {
       {/* Solutions List */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-24">
+          <div className="space-y-32">
             {allSolutions.map((solution, index) => {
-              const Icon = solution.icon;
               const isReversed = index % 2 !== 0;
 
               return (
@@ -118,9 +123,7 @@ export default function SolutionsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
-                  className={`grid lg:grid-cols-2 gap-16 items-center ${
-                    isReversed ? "lg:direction-rtl" : ""
-                  }`}
+                  className="grid lg:grid-cols-2 gap-16 items-center"
                 >
                   {/* Content */}
                   <div className={isReversed ? "lg:order-2" : ""}>
@@ -161,26 +164,26 @@ export default function SolutionsPage() {
                     </Link>
                   </div>
 
-                  {/* Visual Card */}
-                  <div
-                    className={`${
-                      isReversed ? "lg:order-1" : ""
-                    }`}
-                  >
-                    <div className="bg-light rounded-2xl p-12 flex items-center justify-center relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl" />
-                      <div className="relative">
-                        <div className="w-24 h-24 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                          <Icon size={40} className="text-primary" />
-                        </div>
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-border text-center">
-                          <h3 className="font-bold text-dark text-lg">
-                            {solution.title}
-                          </h3>
-                          <p className="text-text-light text-sm mt-1">
-                            {solution.subtitle}
-                          </p>
-                        </div>
+                  {/* Image */}
+                  <div className={isReversed ? "lg:order-1" : ""}>
+                    <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl shadow-dark/10">
+                      <Image
+                        src={solution.image}
+                        alt={solution.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
+
+                      {/* Floating label */}
+                      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg">
+                        <h3 className="font-bold text-dark text-sm">
+                          {solution.title}
+                        </h3>
+                        <p className="text-text-light text-xs">
+                          {solution.subtitle}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -192,8 +195,15 @@ export default function SolutionsPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-20 bg-dark">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-20 bg-dark relative overflow-hidden">
+        <Image
+          src={images.cta}
+          alt="Workspace"
+          fill
+          className="object-cover opacity-20"
+          sizes="100vw"
+        />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white">
             Ready to get started?
           </h2>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Phone,
@@ -10,6 +11,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { siteConfig } from "@/lib/config";
+import { images } from "@/lib/images";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -32,9 +34,17 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-dark relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-dark to-dark-light" />
+      {/* Hero with background image */}
+      <section className="pt-32 pb-16 relative overflow-hidden">
+        <Image
+          src={images.contact}
+          alt="Contact us"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-dark/90" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="section-tag">Contact Us</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mt-4">
@@ -43,8 +53,8 @@ export default function ContactPage() {
             <span className="text-white/80">please fill the form</span>
           </h1>
           <p className="text-white/60 mt-4 max-w-xl mx-auto">
-            So, make the decision to move forward. Let&apos;s discuss your project
-            and bring it into focus.
+            So, make the decision to move forward. Let&apos;s discuss your
+            project and bring it into focus.
           </p>
         </div>
       </section>
@@ -53,7 +63,7 @@ export default function ContactPage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
-            {/* Left - Contact Info */}
+            {/* Left - Contact Info + Image */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -107,8 +117,20 @@ export default function ContactPage() {
                 </div>
               </div>
 
+              {/* Image */}
+              <div className="relative rounded-2xl overflow-hidden aspect-[16/9] mt-8">
+                <Image
+                  src={images.business}
+                  alt="Our team at work"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent" />
+              </div>
+
               {/* Trust badges */}
-              <div className="mt-12 p-6 bg-light rounded-2xl">
+              <div className="mt-8 p-6 bg-light rounded-2xl">
                 <h4 className="font-semibold text-dark mb-4 text-sm">
                   Why reach out to us?
                 </h4>
@@ -122,7 +144,10 @@ export default function ContactPage() {
                     key={item}
                     className="flex items-center gap-2 text-text-light text-sm py-1.5"
                   >
-                    <CheckCircle2 size={14} className="text-primary shrink-0" />
+                    <CheckCircle2
+                      size={14}
+                      className="text-primary shrink-0"
+                    />
                     {item}
                   </div>
                 ))}
@@ -183,9 +208,13 @@ export default function ContactPage() {
                         className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors text-text-light"
                       >
                         <option value="">Select Service*</option>
-                        <option value="Web Development">Web Development</option>
+                        <option value="Web Development">
+                          Web Development
+                        </option>
                         <option value="ERP System">ERP System</option>
-                        <option value="E-Commerce">E-Commerce Platform</option>
+                        <option value="E-Commerce">
+                          E-Commerce Platform
+                        </option>
                         <option value="Mobile App">Mobile App</option>
                         <option value="Booking Platform">
                           Booking Platform

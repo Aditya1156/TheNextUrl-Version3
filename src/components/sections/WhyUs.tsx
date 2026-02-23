@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Code2,
@@ -9,15 +10,7 @@ import {
   HeartHandshake,
   BadgeCheck,
 } from "lucide-react";
-
-const iconMap = {
-  Code2,
-  Gauge,
-  ShieldCheck,
-  IndianRupee,
-  HeartHandshake,
-  BadgeCheck,
-};
+import { images } from "@/lib/images";
 
 const features = [
   {
@@ -60,8 +53,54 @@ export default function WhyUs() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left - Content */}
-          <div>
+          {/* Left - Image + Overlay Card (Nexbiz style) */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            {/* Main Image */}
+            <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+              <Image
+                src={images.whyUs}
+                alt="Team collaborating on digital solutions"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+
+            {/* Floating Overlay Card — like Nexbiz */}
+            <div className="absolute -bottom-6 -left-4 sm:left-auto sm:-right-6 bg-primary rounded-2xl p-6 sm:p-8 shadow-2xl shadow-primary/30 max-w-[240px]">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                <Code2 size={24} className="text-white" />
+              </div>
+              <h4 className="text-white font-bold text-lg leading-tight">
+                IT Solutions For The Modern Workplace.
+              </h4>
+            </div>
+
+            {/* Small secondary image */}
+            <div className="hidden lg:block absolute -bottom-8 -right-8 w-32 h-32 rounded-xl overflow-hidden border-4 border-dark shadow-xl">
+              <Image
+                src={images.whyUsCard}
+                alt="Digital strategy"
+                fill
+                className="object-cover"
+                sizes="128px"
+              />
+            </div>
+          </motion.div>
+
+          {/* Right - Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <span className="section-tag">Why Choose Us</span>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mt-4">
               We Build Solutions for
@@ -69,9 +108,10 @@ export default function WhyUs() {
               Your Growth
             </h2>
             <p className="text-white/60 mt-6 leading-relaxed">
-              A modern digital agency built for IT companies, institutions, and businesses.
-              Fully responsive, SEO-optimized, and packed with features to help
-              you build a strong and professional digital presence.
+              A modern digital agency built for IT companies, institutions, and
+              businesses. Fully responsive, SEO-optimized, and packed with
+              features to help you build a strong and professional digital
+              presence.
             </p>
 
             {/* Progress bars - like Nexbiz */}
@@ -100,34 +140,25 @@ export default function WhyUs() {
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Right - Feature Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.08 }}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-primary/30 transition-all group"
-                >
-                  <div className="w-11 h-11 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <Icon size={20} className="text-primary" />
+            {/* Feature Tags */}
+            <div className="mt-10 grid grid-cols-2 gap-3">
+              {features.map((feature) => {
+                const Icon = feature.icon;
+                return (
+                  <div
+                    key={feature.title}
+                    className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3 hover:border-primary/30 transition-all"
+                  >
+                    <Icon size={18} className="text-primary shrink-0" />
+                    <span className="text-white text-sm font-medium">
+                      {feature.title}
+                    </span>
                   </div>
-                  <h3 className="text-white font-semibold text-sm">
-                    {feature.title}
-                  </h3>
-                  <p className="text-white/50 text-xs mt-1">
-                    {feature.description}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

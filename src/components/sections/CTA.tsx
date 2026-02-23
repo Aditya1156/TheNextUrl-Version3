@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
+import { images } from "@/lib/images";
 
 export default function CTA() {
   return (
@@ -14,8 +16,18 @@ export default function CTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-dark rounded-3xl p-12 sm:p-16 text-center relative overflow-hidden"
+          className="rounded-3xl p-12 sm:p-16 text-center relative overflow-hidden"
         >
+          {/* Background Image */}
+          <Image
+            src={images.cta}
+            alt="Modern workspace"
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-dark/85" />
+
           {/* Decorative */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/5 rounded-full blur-2xl" />
@@ -28,8 +40,8 @@ export default function CTA() {
               Digital Foundation?
             </h2>
             <p className="text-white/60 mt-6 max-w-xl mx-auto">
-              Let&apos;s discuss your project requirements and create a roadmap for your
-              digital transformation.
+              Let&apos;s discuss your project requirements and create a roadmap
+              for your digital transformation.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4 mt-10">

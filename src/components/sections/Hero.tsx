@@ -1,14 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Play, CheckCircle2 } from "lucide-react";
+import { images } from "@/lib/images";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-dark">
-      {/* Background Image Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-dark/95 via-dark/80 to-dark/60" />
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background Image */}
+      <Image
+        src={images.hero}
+        alt="Modern office workspace"
+        fill
+        className="object-cover"
+        priority
+        quality={85}
+      />
+
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/80 to-dark/50" />
 
       {/* Decorative grid pattern */}
       <div
@@ -47,7 +59,7 @@ export default function Hero() {
             Digital Infrastructure
             <br />
             for Institutions &{" "}
-            <span className="relative">
+            <span className="relative inline-block">
               <span className="text-primary">Businesses</span>
               <svg
                 className="absolute -bottom-2 left-0 w-full"

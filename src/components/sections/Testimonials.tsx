@@ -1,8 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { testimonials } from "@/lib/config";
+import { images } from "@/lib/images";
+
+const avatarImages = [images.avatar1, images.avatar2, images.avatar3];
 
 export default function Testimonials() {
   return (
@@ -16,19 +20,26 @@ export default function Testimonials() {
               Read what Our Clients say about work
             </h2>
             <p className="text-text-light mt-4">
-              Real feedback from real clients who trust us to build their digital infrastructure.
+              Real feedback from real clients who trust us to build their digital
+              infrastructure.
             </p>
 
             {/* Rating Card - Nexbiz style */}
             <div className="bg-primary rounded-2xl p-8 mt-8">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
+                  {avatarImages.map((src, i) => (
                     <div
                       key={i}
-                      className="w-10 h-10 rounded-full bg-white/20 border-2 border-primary flex items-center justify-center text-white text-xs font-bold"
+                      className="w-10 h-10 rounded-full border-2 border-primary overflow-hidden relative"
                     >
-                      {["R", "P", "V"][i - 1]}
+                      <Image
+                        src={src}
+                        alt="Client"
+                        fill
+                        className="object-cover"
+                        sizes="40px"
+                      />
                     </div>
                   ))}
                 </div>
@@ -80,10 +91,14 @@ export default function Testimonials() {
 
                 <div className="mt-6 pt-4 border-t border-border">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="text-primary font-bold text-sm">
-                        {testimonial.name.charAt(0)}
-                      </span>
+                    <div className="w-10 h-10 rounded-full overflow-hidden relative">
+                      <Image
+                        src={avatarImages[index]}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                        sizes="40px"
+                      />
                     </div>
                     <div>
                       <div className="font-semibold text-primary text-sm">
