@@ -1,9 +1,18 @@
 // Stock images from Unsplash — free for commercial use
 // All images are optimized via Next/Image at build time
 
+export const heroSlides = [
+  "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80&auto=format&fit=crop",   // Modern office corridor
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1920&q=80&auto=format&fit=crop",   // Tech team working
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80&auto=format&fit=crop",   // Laptops on desk
+  "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1920&q=80&auto=format&fit=crop",   // Strategy planning
+  "https://images.unsplash.com/photo-1531973576160-7125cd663d86?w=1920&q=80&auto=format&fit=crop",   // Developer coding
+  "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=1920&q=80&auto=format&fit=crop",   // Clean modern workspace
+] as const;
+
 export const images = {
-  // Hero — modern tech office workspace
-  hero: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80&auto=format&fit=crop",
+  // Hero — first slide used as fallback
+  hero: heroSlides[0],
 
   // Why Us — team collaborating on laptop
   whyUs:

@@ -1,22 +1,49 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Play, CheckCircle2 } from "lucide-react";
-import { images } from "@/lib/images";
+import { heroSlides } from "@/lib/images";
 
 export default function Hero() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  }, []);
+
+  // Auto-advance every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
-      <Image
-        src={images.hero}
-        alt="Modern office workspace"
-        fill
-        className="object-cover"
-        priority
-        quality={85}
+      {/* Background Slideshow */}
+      {heroSlides.map((src, index) => (
+        <Image
+          key={src}
+          src={src}
+          alt={`Slide ${index + 1}`}
+          fill
+          className={`object-cover transition-opacity duration-1000 ease-in-out ${
+            index === currentSlide ? "opacity-100" : "opacity-0"
+          }`}
+          priority={index === 0}
+          quality={85}
+          sizes="100vw"
+        />
+      ))}
+
+      {/* Ken Burns zoom effect on active slide */}
+      <div
+        className="absolute inset-0 transition-transform duration-[5000ms] ease-linear"
+        style={{
+          transform: `scale(${1.05})`,
+        }}
       />
 
       {/* Dark Overlay */}
@@ -134,6 +161,22 @@ export default function Hero() {
               </div>
             ))}
           </motion.div>
+        </div>
+
+        {/* Slide Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`transition-all duration-300 rounded-full ${
+                index === currentSlide
+                  ? "w-8 h-2 bg-primary"
+                  : "w-2 h-2 bg-white/40 hover:bg-white/60"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
