@@ -58,6 +58,9 @@ export const metadata: Metadata = {
     description:
       "Custom websites, ERP systems, and mobile apps for institutions and businesses.",
   },
+  verification: {
+    google: "qNl_4xbxM_KjGr6d0BJMyXZyfUyQRCwLCB-NCFbGh9E",
+  },
   robots: {
     index: true,
     follow: true,
