@@ -10,6 +10,7 @@ import Preloader from "@/components/ui/Preloader";
 import StickyBar from "@/components/ui/StickyBar";
 import DiscountPopup from "@/components/ui/DiscountPopup";
 import JsonLd from "@/components/seo/JsonLd";
+import GoogleAnalytics from "@/components/seo/GoogleAnalytics";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 
 
@@ -79,6 +80,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <JsonLd />
+        <GoogleAnalytics />
       </head>
       <body className={`${inter.className} antialiased`}>
         <SmoothScroll />
