@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -18,50 +18,37 @@ import { images } from "@/lib/images";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("sending");
 
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const name = data.get("name") as string;
-    const email = data.get("email") as string;
-    const phone = data.get("phone") as string;
-    const service = data.get("service") as string;
-    const message = data.get("message") as string;
+    // Initialize EmailJS
+    emailjs.init({ publicKey: emailjsConfig.publicKey });
 
-    const templateParams = {
-      from_name: name,
-      from_email: email,
-      phone: phone,
-      service: service,
-      message: message || "No additional message.",
-    };
-
-    // Send via EmailJS — notification + auto-reply
     try {
-      // 1. Send notification email to you
-      await emailjs.send(
+      // Use sendForm — sends the form directly (most reliable method)
+      const result = await emailjs.sendForm(
         emailjsConfig.serviceId,
         emailjsConfig.templateId,
-        templateParams,
-        emailjsConfig.publicKey
+        formRef.current!,
+        { publicKey: emailjsConfig.publicKey }
       );
 
-      // 2. Send auto-reply to the visitor
-      if (emailjsConfig.autoreplyTemplateId) {
-        emailjs.send(
-          emailjsConfig.serviceId,
-          emailjsConfig.autoreplyTemplateId,
-          templateParams,
-          emailjsConfig.publicKey
-        );
-      }
-
+      console.log("EmailJS success:", result.text);
       setStatus("sent");
-    } catch {
-      // If EmailJS fails, fall back to WhatsApp
+    } catch (error) {
+      console.error("EmailJS error:", error);
+
+      // Fall back to WhatsApp
+      const data = new FormData(e.currentTarget);
+      const name = data.get("name") as string;
+      const email = data.get("email") as string;
+      const phone = data.get("phone") as string;
+      const service = data.get("service") as string;
+      const message = data.get("message") as string;
+
       const whatsappMessage = `Hi, I'm ${name} (${email}, ${phone}). I'm interested in ${service}. ${message}`;
       window.open(
         `${siteConfig.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`,
@@ -238,18 +225,18 @@ export default function ContactPage() {
                   <p className="text-text-lighter text-xs mb-6">
                     Your message will be sent directly to our team via email.
                   </p>
-                  <form onSubmit={handleSubmit} className="space-y-5">
+                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <input
                         type="text"
-                        name="name"
+                        name="from_name"
                         placeholder="Full Name*"
                         required
                         className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors"
                       />
                       <input
                         type="email"
-                        name="email"
+                        name="from_email"
                         placeholder="Email*"
                         required
                         className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors"
