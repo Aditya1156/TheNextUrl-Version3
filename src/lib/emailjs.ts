@@ -1,12 +1,13 @@
-// EmailJS Configuration
-// Sign up at https://www.emailjs.com/ and replace these values
-// 1. Create an account → Add Email Service (Gmail/Outlook) → Get Service ID
-// 2. Create Email Template → Get Template ID
-// 3. Account → General → Copy Public Key
+// EmailJS Configuration — reads from .env.local
+// Set these in .env.local (or Vercel Environment Variables for production):
+//   NEXT_PUBLIC_EMAILJS_SERVICE_ID
+//   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+//   NEXT_PUBLIC_EMAILJS_DISCOUNT_TEMPLATE_ID
+//   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
 
 export const emailjsConfig = {
-  serviceId: "service_thenexturl",     // Replace with your EmailJS Service ID
-  templateId: "template_contact",       // Replace with your EmailJS Template ID
-  discountTemplateId: "template_discount", // Replace with your discount template ID
-  publicKey: "YOUR_PUBLIC_KEY",         // Replace with your EmailJS Public Key
+  serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+  templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
+  discountTemplateId: process.env.NEXT_PUBLIC_EMAILJS_DISCOUNT_TEMPLATE_ID || "",
+  publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
 } as const;
