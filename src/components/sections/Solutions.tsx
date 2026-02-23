@@ -36,18 +36,18 @@ export default function Solutions() {
               >
                 <Link
                   href={solution.href}
-                  className="group block p-8 border border-border rounded-2xl hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all"
+                  className="glow-card group block p-8 bg-white border border-border rounded-2xl hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-5">
-                      <div className="w-14 h-14 bg-light rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all shrink-0">
+                      <div className="w-14 h-14 bg-light rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0 group-hover:shadow-lg group-hover:shadow-primary/25">
                         <Icon size={24} className="text-primary group-hover:text-white transition-colors" />
                       </div>
                       <div>
                         <span className="text-xs font-bold text-primary">
                           {solution.number}
                         </span>
-                        <h3 className="text-xl font-bold text-dark mt-1">
+                        <h3 className="text-xl font-bold text-dark mt-1 group-hover:text-primary transition-colors">
                           {solution.title}
                         </h3>
                         <p className="text-text-light mt-2 text-sm">

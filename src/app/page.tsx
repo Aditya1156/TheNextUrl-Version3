@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import TechStack from "@/components/sections/TechStack";
 import Solutions from "@/components/sections/Solutions";
 import WhoWeServe from "@/components/sections/WhoWeServe";
 import Results from "@/components/sections/Results";
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <TechStack />
       <Solutions />
       <WhoWeServe />
       <Results />
