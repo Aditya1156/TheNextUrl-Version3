@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import BlurText from "@/components/ui/BlurText";
 
 const faqs = [
   {
@@ -61,9 +62,13 @@ export default function FAQ() {
             Frequently Asked{" "}
             <span className="gradient-text">Questions</span>
           </h2>
-          <p className="text-text-light mt-4 max-w-2xl mx-auto">
-            Everything you need to know about working with us.
-          </p>
+          <BlurText
+            text="Everything you need to know about working with us."
+            delay={80}
+            animateBy="words"
+            direction="bottom"
+            className="text-text-light mt-4 max-w-2xl mx-auto justify-center"
+          />
         </div>
 
         {/* Accordion */}

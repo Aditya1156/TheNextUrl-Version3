@@ -15,6 +15,7 @@ import emailjs from "@emailjs/browser";
 import { siteConfig } from "@/lib/config";
 import { emailjsConfig } from "@/lib/emailjs";
 import { images } from "@/lib/images";
+import BlurText from "@/components/ui/BlurText";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+]?[\d\s()-]{7,15}$/;
@@ -91,9 +92,13 @@ export default function ContactPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="section-tag">Contact Us</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mt-4">
-            Need assistance?
-            <br />
-            <span className="text-white/80">please fill the form</span>
+            <BlurText
+              text="Need assistance? please fill the form"
+              delay={120}
+              animateBy="words"
+              direction="top"
+              className="text-4xl sm:text-5xl font-bold text-white justify-center"
+            />
           </h1>
           <p className="text-white/60 mt-4 max-w-xl mx-auto">
             So, make the decision to move forward. Let&apos;s discuss your

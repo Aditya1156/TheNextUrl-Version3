@@ -12,6 +12,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { images } from "@/lib/images";
+import BlurText from "@/components/ui/BlurText";
 
 const allSolutions = [
   {
@@ -97,9 +98,13 @@ export default function SolutionsPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="section-tag">Our Solutions</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mt-4">
-            Exploring business world
-            <br />
-            <span className="text-white/80">through our services</span>
+            <BlurText
+              text="Exploring business world through our services"
+              delay={120}
+              animateBy="words"
+              direction="top"
+              className="text-4xl sm:text-5xl font-bold text-white justify-center"
+            />
           </h1>
           <p className="text-white/60 mt-4 max-w-xl mx-auto">
             Scalable digital systems engineered for performance, security, and

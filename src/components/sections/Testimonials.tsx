@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { testimonials } from "@/lib/config";
 import { images } from "@/lib/images";
+import BlurText from "@/components/ui/BlurText";
 
 const avatarImages = [images.avatar1, images.avatar2, images.avatar3];
 
@@ -23,10 +24,13 @@ export default function Testimonials() {
             <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-4">
               What Our <span className="gradient-text-dark">Clients</span> Say
             </h2>
-            <p className="text-text-light mt-4">
-              Real feedback from real clients who trust us to build their digital
-              infrastructure.
-            </p>
+            <BlurText
+              text="Real feedback from real clients who trust us to build their digital infrastructure."
+              delay={80}
+              animateBy="words"
+              direction="bottom"
+              className="text-text-light mt-4"
+            />
 
             {/* Rating Card - Nexbiz style */}
             <div className="bg-primary rounded-2xl p-8 mt-8">

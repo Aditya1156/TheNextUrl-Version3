@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
+import BlurText from "@/components/ui/BlurText";
 import { images } from "@/lib/images";
 
 export default function CTA() {
@@ -35,14 +36,21 @@ export default function CTA() {
           <div className="relative">
             <span className="section-tag">Get Started</span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4">
-              Ready to Build Your
-              <br />
-              Digital <span className="gradient-text">Foundation</span>?
+              <BlurText
+                text="Ready to Build Your Digital Foundation?"
+                delay={100}
+                animateBy="words"
+                direction="top"
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white justify-center"
+              />
             </h2>
-            <p className="text-white/60 mt-6 max-w-xl mx-auto">
-              Let&apos;s discuss your project requirements and create a roadmap
-              for your digital transformation.
-            </p>
+            <BlurText
+              text="Let's discuss your project requirements and create a roadmap for your digital transformation."
+              delay={60}
+              animateBy="words"
+              direction="bottom"
+              className="text-white/60 mt-6 max-w-xl mx-auto justify-center"
+            />
 
             <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
               <Link

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Globe, Server, ShoppingCart, Smartphone } from "lucide-react";
 import { solutions } from "@/lib/config";
+import BlurText from "@/components/ui/BlurText";
 
 const icons = [Globe, Server, ShoppingCart, Smartphone];
 
@@ -26,9 +27,13 @@ export default function Solutions() {
           <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-4">
             What We <span className="gradient-text-dark">Build</span>
           </h2>
-          <p className="text-text-light mt-4 max-w-2xl mx-auto">
-            Scalable digital systems engineered for performance, security, and growth.
-          </p>
+          <BlurText
+            text="Scalable digital systems engineered for performance, security, and growth."
+            delay={80}
+            animateBy="words"
+            direction="bottom"
+            className="text-text-light mt-4 max-w-2xl mx-auto justify-center"
+          />
         </div>
 
         {/* Solutions Grid */}

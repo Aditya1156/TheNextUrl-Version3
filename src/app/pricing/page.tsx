@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight, Check, X } from "lucide-react";
+import BlurText from "@/components/ui/BlurText";
 
 const plans = [
   {
@@ -67,9 +68,13 @@ export default function PricingPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="section-tag">Pricing Plan</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mt-4">
-            Find the perfect plan
-            <br />
-            <span className="text-white/80">for your needs</span>
+            <BlurText
+              text="Find the perfect plan for your needs"
+              delay={120}
+              animateBy="words"
+              direction="top"
+              className="text-4xl sm:text-5xl font-bold text-white justify-center"
+            />
           </h1>
           <p className="text-white/60 mt-4 max-w-xl mx-auto">
             Transparent pricing with no hidden costs. Choose the plan that fits

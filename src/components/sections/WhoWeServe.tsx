@@ -11,6 +11,7 @@ import {
   Building2,
 } from "lucide-react";
 import { images } from "@/lib/images";
+import BlurText from "@/components/ui/BlurText";
 
 const industries = [
   {
@@ -71,9 +72,13 @@ export default function WhoWeServe() {
           <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-4">
             Who We <span className="gradient-text-dark">Serve</span>
           </h2>
-          <p className="text-text-light mt-4 max-w-2xl mx-auto">
-            We build tailored solutions for organizations across sectors.
-          </p>
+          <BlurText
+            text="We build tailored solutions for organizations across sectors."
+            delay={80}
+            animateBy="words"
+            direction="bottom"
+            className="text-text-light mt-4 max-w-2xl mx-auto justify-center"
+          />
         </div>
 
         {/* Grid */}

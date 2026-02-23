@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Play, CheckCircle2 } from "lucide-react";
 import { heroSlides } from "@/lib/images";
+import BlurText from "@/components/ui/BlurText";
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -84,44 +85,27 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Headline with gradient text */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mt-6 leading-tight"
-          >
-            Digital Infrastructure
-            <br />
-            for Institutions &{" "}
-            <span className="relative inline-block">
-              <span className="gradient-text">Businesses</span>
-              <svg
-                className="absolute -bottom-2 left-0 w-full"
-                viewBox="0 0 200 8"
-                fill="none"
-              >
-                <path
-                  d="M1 5.5C47 2 153 2 199 5.5"
-                  stroke="var(--color-primary)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-          </motion.h1>
+          {/* Headline with blur text animation */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mt-6 leading-tight">
+            <BlurText
+              text="Digital Infrastructure for Institutions & Businesses"
+              delay={100}
+              animateBy="words"
+              direction="top"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight"
+            />
+          </h1>
 
           {/* Subtext */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-white/70 mt-6 max-w-xl leading-relaxed"
-          >
-            Websites. ERP Systems. Booking Platforms. Mobile Apps.
-            <br />
-            Built with precision. Designed to scale.
-          </motion.p>
+          <div className="mt-6 max-w-xl">
+            <BlurText
+              text="Websites. ERP Systems. Booking Platforms. Mobile Apps. Built with precision. Designed to scale."
+              delay={80}
+              animateBy="words"
+              direction="bottom"
+              className="text-lg text-white/70 leading-relaxed"
+            />
+          </div>
 
           {/* CTA Buttons */}
           <motion.div

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { processSteps } from "@/lib/config";
+import BlurText from "@/components/ui/BlurText";
 import { Search, Palette, Code2, Rocket } from "lucide-react";
 
 const icons = [Search, Palette, Code2, Rocket];
@@ -25,9 +26,13 @@ export default function Process() {
           <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-4">
             Our <span className="gradient-text-dark">Process</span>
           </h2>
-          <p className="text-text-light mt-4 max-w-2xl mx-auto">
-            Four simple steps from idea to launch.
-          </p>
+          <BlurText
+            text="Four simple steps from idea to launch."
+            delay={100}
+            animateBy="words"
+            direction="bottom"
+            className="text-text-light mt-4 max-w-2xl mx-auto justify-center"
+          />
         </div>
 
         {/* Steps */}

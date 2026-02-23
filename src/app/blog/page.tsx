@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Clock } from "lucide-react";
 import { blogPosts, formatDate } from "@/lib/blog";
+import BlurText from "@/components/ui/BlurText";
 
 export default function BlogPage() {
   return (
@@ -12,8 +13,13 @@ export default function BlogPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="section-tag">Blog</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mt-4">
-            Insights &{" "}
-            <span className="text-white/80">Resources</span>
+            <BlurText
+              text="Insights & Resources"
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="text-4xl sm:text-5xl font-bold text-white justify-center"
+            />
           </h1>
           <p className="text-white/60 mt-4 max-w-xl mx-auto">
             Expert advice on web development, ERP systems, and growing your
