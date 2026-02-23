@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -18,37 +18,35 @@ import { images } from "@/lib/images";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("sending");
 
-    // Initialize EmailJS
-    emailjs.init({ publicKey: emailjsConfig.publicKey });
+    const data = new FormData(e.currentTarget);
+    const name = data.get("from_name") as string;
+    const email = data.get("from_email") as string;
+    const phone = data.get("phone") as string;
+    const service = data.get("service") as string;
+    const message = data.get("message") as string;
 
     try {
-      // Use sendForm — sends the form directly (most reliable method)
-      const result = await emailjs.sendForm(
+      await emailjs.send(
         emailjsConfig.serviceId,
         emailjsConfig.templateId,
-        formRef.current!,
-        { publicKey: emailjsConfig.publicKey }
+        {
+          from_name: name,
+          from_email: email,
+          phone: phone,
+          service: service,
+          message: message || "No additional message.",
+        },
+        emailjsConfig.publicKey
       );
-
-      console.log("EmailJS success:", result.text);
       setStatus("sent");
     } catch (error) {
       console.error("EmailJS error:", error);
-
       // Fall back to WhatsApp
-      const data = new FormData(e.currentTarget);
-      const name = data.get("name") as string;
-      const email = data.get("email") as string;
-      const phone = data.get("phone") as string;
-      const service = data.get("service") as string;
-      const message = data.get("message") as string;
-
       const whatsappMessage = `Hi, I'm ${name} (${email}, ${phone}). I'm interested in ${service}. ${message}`;
       window.open(
         `${siteConfig.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`,
@@ -225,7 +223,7 @@ export default function ContactPage() {
                   <p className="text-text-lighter text-xs mb-6">
                     Your message will be sent directly to our team via email.
                   </p>
-                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+                  <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <input
                         type="text"
