@@ -105,7 +105,7 @@ export default function WhyUs() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white mt-4">
               We Build Solutions for
               <br />
-              Your Growth
+              Your <span className="gradient-text">Growth</span>
             </h2>
             <p className="text-white/60 mt-6 leading-relaxed">
               A modern digital agency built for IT companies, institutions, and

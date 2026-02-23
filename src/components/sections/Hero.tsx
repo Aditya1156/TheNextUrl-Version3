@@ -1,14 +1,24 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Play, CheckCircle2 } from "lucide-react";
 import { heroSlides } from "@/lib/images";
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -21,30 +31,25 @@ export default function Hero() {
   }, [nextSlide]);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Slideshow */}
-      {heroSlides.map((src, index) => (
-        <Image
-          key={src}
-          src={src}
-          alt={`Slide ${index + 1}`}
-          fill
-          className={`object-cover transition-opacity duration-1000 ease-in-out ${
-            index === currentSlide ? "opacity-100" : "opacity-0"
-          }`}
-          priority={index === 0}
-          quality={85}
-          sizes="100vw"
-        />
-      ))}
-
-      {/* Ken Burns zoom effect on active slide */}
-      <div
-        className="absolute inset-0 transition-transform duration-[5000ms] ease-linear"
-        style={{
-          transform: `scale(${1.05})`,
-        }}
-      />
+    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background Slideshow with Parallax */}
+      <motion.div className="absolute inset-0" style={{ y: backgroundY }}>
+        {heroSlides.map((src, index) => (
+          <Image
+            key={src}
+            src={src}
+            alt={`Slide ${index + 1}`}
+            fill
+            className={`object-cover transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? "opacity-100 scale-105" : "opacity-0 scale-100"
+            }`}
+            priority={index === 0}
+            quality={85}
+            sizes="100vw"
+            style={{ transition: "opacity 1s ease-in-out, transform 5s ease-in-out" }}
+          />
+        ))}
+      </motion.div>
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/80 to-dark/50" />
@@ -63,7 +68,10 @@ export default function Hero() {
       <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-1/4 right-1/3 w-48 h-48 bg-primary/5 rounded-full blur-2xl animate-float-slow" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+      <motion.div
+        style={{ y: textY, opacity }}
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full"
+      >
         <div className="max-w-3xl">
           {/* Section tag */}
           <motion.div
@@ -76,7 +84,7 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Headline */}
+          {/* Headline with gradient text */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,7 +95,7 @@ export default function Hero() {
             <br />
             for Institutions &{" "}
             <span className="relative inline-block">
-              <span className="text-primary">Businesses</span>
+              <span className="gradient-text">Businesses</span>
               <svg
                 className="absolute -bottom-2 left-0 w-full"
                 viewBox="0 0 200 8"
@@ -124,7 +132,7 @@ export default function Hero() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-primary/25 text-sm"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 text-sm"
             >
               Get Free Consultation
               <ArrowUpRight size={18} />
@@ -178,7 +186,7 @@ export default function Hero() {
             />
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

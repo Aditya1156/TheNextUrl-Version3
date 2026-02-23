@@ -5,6 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFloat from "@/components/ui/WhatsAppFloat";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import Preloader from "@/components/ui/Preloader";
+import StickyBar from "@/components/ui/StickyBar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -71,11 +73,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
+        <Preloader />
         <Navbar />
         <main>{children}</main>
         <Footer />
         <WhatsAppFloat />
         <ScrollToTop />
+        <StickyBar />
       </body>
     </html>
   );

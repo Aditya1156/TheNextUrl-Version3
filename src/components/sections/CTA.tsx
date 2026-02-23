@@ -37,7 +37,7 @@ export default function CTA() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4">
               Ready to Build Your
               <br />
-              Digital Foundation?
+              Digital <span className="gradient-text">Foundation</span>?
             </h2>
             <p className="text-white/60 mt-6 max-w-xl mx-auto">
               Let&apos;s discuss your project requirements and create a roadmap

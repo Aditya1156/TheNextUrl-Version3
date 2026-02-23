@@ -59,13 +59,17 @@ const industries = [
 
 export default function WhoWeServe() {
   return (
-    <section className="py-24 bg-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-light relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary/3 rounded-full blur-3xl" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="section-tag">Industries</span>
           <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-4">
-            Who We Serve
+            Who We <span className="gradient-text-dark">Serve</span>
           </h2>
           <p className="text-text-light mt-4 max-w-2xl mx-auto">
             We build tailored solutions for organizations across sectors.
@@ -83,7 +87,7 @@ export default function WhoWeServe() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="group bg-white rounded-2xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 transition-all"
+                className="group bg-white rounded-2xl overflow-hidden border border-border hover:border-dark/15 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
               >
                 {/* Image */}
                 <div className="relative h-44 overflow-hidden">
@@ -91,12 +95,12 @@ export default function WhoWeServe() {
                     src={industry.image}
                     alt={industry.name}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   <div
-                    className={`absolute top-4 left-4 w-10 h-10 rounded-lg flex items-center justify-center ${industry.color} shadow-sm`}
+                    className={`absolute top-4 left-4 w-10 h-10 rounded-lg flex items-center justify-center ${industry.color} shadow-sm group-hover:scale-110 transition-transform duration-300`}
                   >
                     <Icon size={18} />
                   </div>

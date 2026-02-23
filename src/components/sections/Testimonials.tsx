@@ -10,14 +10,18 @@ const avatarImages = [images.avatar1, images.avatar2, images.avatar3];
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-light relative overflow-hidden">
+      {/* Background blobs */}
+      <div className="absolute top-20 -right-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-primary/3 rounded-full blur-3xl" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-3 gap-12 items-start">
           {/* Left - Header + Rating Card */}
           <div>
             <span className="section-tag">Testimonials</span>
             <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-4">
-              Read what Our Clients say about work
+              What Our <span className="gradient-text-dark">Clients</span> Say
             </h2>
             <p className="text-text-light mt-4">
               Real feedback from real clients who trust us to build their digital
@@ -66,7 +70,7 @@ export default function Testimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-8 border border-border relative"
+                className="bg-white rounded-2xl p-8 border border-border relative hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
               >
                 {/* Quote mark */}
                 <Quote

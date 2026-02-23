@@ -20,6 +20,7 @@
   --animate-float-slow: float-slow 8s ease-in-out infinite;
   --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
   --animate-marquee: marquee 30s linear infinite;
+  --animate-marquee-slow: marquee 40s linear infinite;
 }
 
 @keyframes float {
@@ -40,6 +41,12 @@
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 
@@ -77,6 +84,7 @@ body {
   background: var(--color-primary-dark);
 }
 
+/* Section tag with brackets */
 .section-tag {
   color: var(--color-primary);
   font-size: 0.875rem;
@@ -91,4 +99,41 @@ body {
 
 .section-tag::after {
   content: " ]";
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 50%, var(--color-primary) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 4s ease infinite;
+}
+
+.gradient-text-dark {
+  background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 50%, var(--color-dark) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* Wave divider */
+.wave-divider {
+  position: relative;
+  margin-top: -1px;
+}
+
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: 40px;
+}
+
+@media (min-width: 768px) {
+  .wave-divider svg {
+    height: 60px;
+  }
 }

@@ -42,9 +42,9 @@ function AnimatedCounter({
   }, [inView, target]);
 
   return (
-    <span>
+    <span className="tabular-nums">
       {count}
-      {suffix}
+      <span className="text-primary-light">{suffix}</span>
     </span>
   );
 }
@@ -56,32 +56,45 @@ export default function Results() {
   return (
     <section className="py-20 bg-dark relative overflow-hidden">
       {/* Top accent line */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary-light to-primary" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+      {/* Animated background pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(255, 255, 255, 0.4) 1px, transparent 1px)",
+          backgroundSize: "30px 30px",
+        }}
+      />
+
+      {/* Floating blobs */}
+      <div className="absolute top-10 left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-10 right-10 w-60 h-60 bg-primary/3 rounded-full blur-3xl" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-center group"
               >
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Icon size={24} className="text-primary" />
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
+                  <Icon size={26} className="text-primary" />
                 </div>
-                <div className="text-4xl sm:text-5xl font-black text-primary">
+                <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">
                   <AnimatedCounter
                     target={stat.value}
                     suffix={stat.suffix}
                     inView={inView}
                   />
                 </div>
-                <div className="text-white/70 text-sm mt-2 font-medium">
+                <div className="text-white/50 text-sm mt-3 font-medium tracking-wide uppercase">
                   {stat.label}
                 </div>
               </motion.div>
