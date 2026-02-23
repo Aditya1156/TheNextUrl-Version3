@@ -16,6 +16,13 @@ import { siteConfig } from "@/lib/config";
 import { emailjsConfig } from "@/lib/emailjs";
 import { images } from "@/lib/images";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[+]?[\d\s()-]{7,15}$/;
+
+function sanitize(str: string): string {
+  return str.replace(/[<>]/g, "").trim();
+}
+
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -30,11 +37,22 @@ export default function ContactPage() {
     setErrorMsg("");
 
     const data = new FormData(e.currentTarget);
-    const name = data.get("from_name") as string;
-    const email = data.get("from_email") as string;
-    const phone = data.get("phone") as string;
-    const service = data.get("service") as string;
-    const message = data.get("message") as string;
+    const name = sanitize(data.get("from_name") as string || "");
+    const email = sanitize(data.get("from_email") as string || "");
+    const phone = sanitize(data.get("phone") as string || "");
+    const service = sanitize(data.get("service") as string || "");
+    const message = sanitize(data.get("message") as string || "");
+
+    if (!EMAIL_RE.test(email)) {
+      setErrorMsg("Please enter a valid email address.");
+      setStatus("error");
+      return;
+    }
+    if (!PHONE_RE.test(phone)) {
+      setErrorMsg("Please enter a valid phone number.");
+      setStatus("error");
+      return;
+    }
 
     try {
       await emailjs.send(
@@ -222,6 +240,8 @@ export default function ContactPage() {
                         name="from_name"
                         placeholder="Full Name*"
                         required
+                        maxLength={100}
+                        aria-label="Full Name"
                         className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors"
                       />
                       <input
@@ -229,6 +249,8 @@ export default function ContactPage() {
                         name="from_email"
                         placeholder="Email*"
                         required
+                        maxLength={100}
+                        aria-label="Email Address"
                         className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors"
                       />
                     </div>
@@ -238,11 +260,14 @@ export default function ContactPage() {
                         name="phone"
                         placeholder="Phone*"
                         required
+                        maxLength={15}
+                        aria-label="Phone Number"
                         className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors"
                       />
                       <select
                         name="service"
                         required
+                        aria-label="Select Service"
                         className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors text-text-light"
                       >
                         <option value="">Select Service*</option>
@@ -264,6 +289,8 @@ export default function ContactPage() {
                       name="message"
                       placeholder="Tell us about your project..."
                       rows={5}
+                      maxLength={1000}
+                      aria-label="Project Details"
                       className="w-full px-4 py-3 bg-light border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors resize-none"
                     />
                     <button

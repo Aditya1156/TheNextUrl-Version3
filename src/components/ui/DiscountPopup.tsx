@@ -7,10 +7,18 @@ import emailjs from "@emailjs/browser";
 import { siteConfig } from "@/lib/config";
 import { emailjsConfig } from "@/lib/emailjs";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[+]?[\d\s()-]{7,15}$/;
+
+function sanitize(str: string): string {
+  return str.replace(/[<>]/g, "").trim();
+}
+
 export default function DiscountPopup() {
   const [show, setShow] = useState(false);
   const [step, setStep] = useState<"offer" | "form" | "success">("offer");
   const [sending, setSending] = useState(false);
+  const [formError, setFormError] = useState("");
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("thenexturl_discount_seen");
@@ -27,11 +35,24 @@ export default function DiscountPopup() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormError("");
     setSending(true);
+
     const data = new FormData(e.currentTarget);
-    const name = data.get("name") as string;
-    const email = data.get("email") as string;
-    const phone = data.get("phone") as string;
+    const name = sanitize(data.get("name") as string || "");
+    const email = sanitize(data.get("email") as string || "");
+    const phone = sanitize(data.get("phone") as string || "");
+
+    if (!EMAIL_RE.test(email)) {
+      setFormError("Please enter a valid email.");
+      setSending(false);
+      return;
+    }
+    if (!PHONE_RE.test(phone)) {
+      setFormError("Please enter a valid phone number.");
+      setSending(false);
+      return;
+    }
 
     try {
       await emailjs.send(
@@ -47,7 +68,7 @@ export default function DiscountPopup() {
         { publicKey: emailjsConfig.publicKey }
       );
     } catch {
-      // silently fail — still show success to user
+      // Show success anyway — discount code is still valid
     }
 
     setSending(false);
@@ -143,6 +164,8 @@ export default function DiscountPopup() {
                         name="name"
                         placeholder="Your Name*"
                         required
+                        maxLength={100}
+                        aria-label="Your Name"
                         className="w-full px-4 py-3 bg-light border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition-colors"
                       />
                       <input
@@ -150,6 +173,8 @@ export default function DiscountPopup() {
                         name="email"
                         placeholder="Email Address*"
                         required
+                        maxLength={100}
+                        aria-label="Email Address"
                         className="w-full px-4 py-3 bg-light border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition-colors"
                       />
                       <input
@@ -157,8 +182,14 @@ export default function DiscountPopup() {
                         name="phone"
                         placeholder="Phone Number*"
                         required
+                        maxLength={15}
+                        aria-label="Phone Number"
                         className="w-full px-4 py-3 bg-light border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition-colors"
                       />
+
+                      {formError && (
+                        <p className="text-red-500 text-xs text-center">{formError}</p>
+                      )}
 
                       <button
                         type="submit"
