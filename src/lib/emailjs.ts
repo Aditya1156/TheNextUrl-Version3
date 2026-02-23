@@ -1,9 +1,5 @@
 // EmailJS Configuration — reads from .env.local
-// Set these in .env.local (or Vercel Environment Variables for production):
-//   NEXT_PUBLIC_EMAILJS_SERVICE_ID
-//   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
-//   NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID
-//   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+// Used by both contact form and discount popup
 
 export const emailjsConfig = {
   serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",

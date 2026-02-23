@@ -50,8 +50,8 @@ export default function ContactPage() {
       );
       setStatus("sent");
     } catch (error: unknown) {
-      console.error("EmailJS error:", error);
-      const msg = error instanceof Error ? error.message : String(error);
+      const err = error as { status?: number; text?: string; message?: string };
+      const msg = err.text || err.message || JSON.stringify(error);
       setErrorMsg(msg);
       setStatus("error");
     }

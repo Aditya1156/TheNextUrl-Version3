@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Gift, ArrowUpRight, MessageCircle, Mail } from "lucide-react";
+import { X, Gift, ArrowUpRight, Mail, Loader2 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { siteConfig } from "@/lib/config";
+import { emailjsConfig } from "@/lib/emailjs";
 
 export default function DiscountPopup() {
   const [show, setShow] = useState(false);
   const [step, setStep] = useState<"offer" | "form" | "success">("offer");
-  const [formName, setFormName] = useState("");
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("thenexturl_discount_seen");
@@ -23,20 +25,34 @@ export default function DiscountPopup() {
     localStorage.setItem("thenexturl_discount_seen", "true");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSending(true);
     const data = new FormData(e.currentTarget);
-    setFormName(data.get("name") as string);
+    const name = data.get("name") as string;
+    const email = data.get("email") as string;
+    const phone = data.get("phone") as string;
+
+    try {
+      await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        {
+          from_name: name,
+          from_email: email,
+          phone: phone,
+          service: "10% Discount (WELCOME10)",
+          message: `New lead claimed the WELCOME10 discount code from the website popup.`,
+        },
+        { publicKey: emailjsConfig.publicKey }
+      );
+    } catch {
+      // silently fail — still show success to user
+    }
+
+    setSending(false);
     setStep("success");
     localStorage.setItem("thenexturl_discount_seen", "true");
-  };
-
-  const openWhatsApp = () => {
-    const msg = `Hi, I'm ${formName || "there"}. I just claimed the 10% discount offer (WELCOME10) from your website. I'd like to discuss a project!`;
-    window.open(
-      `${siteConfig.whatsapp}?text=${encodeURIComponent(msg)}`,
-      "_blank"
-    );
   };
 
   return (
@@ -146,10 +162,20 @@ export default function DiscountPopup() {
 
                       <button
                         type="submit"
-                        className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3.5 rounded-xl font-semibold transition-all text-sm w-full justify-center hover:shadow-lg hover:shadow-primary/25"
+                        disabled={sending}
+                        className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3.5 rounded-xl font-semibold transition-all text-sm w-full justify-center hover:shadow-lg hover:shadow-primary/25 disabled:opacity-60"
                       >
-                        Get My Discount
-                        <ArrowUpRight size={16} />
+                        {sending ? (
+                          <>
+                            <Loader2 size={16} className="animate-spin" />
+                            Claiming...
+                          </>
+                        ) : (
+                          <>
+                            Get My Discount
+                            <ArrowUpRight size={16} />
+                          </>
+                        )}
                       </button>
                     </form>
                   </div>
@@ -169,25 +195,7 @@ export default function DiscountPopup() {
                       you contact us. Connect with us now:
                     </p>
 
-                    <div className="mt-6 space-y-3">
-                      <button
-                        onClick={openWhatsApp}
-                        className="flex items-center gap-3 w-full p-4 bg-[#25D366]/10 border border-[#25D366]/20 rounded-xl hover:bg-[#25D366]/20 transition-colors"
-                      >
-                        <MessageCircle
-                          size={20}
-                          className="text-[#25D366]"
-                        />
-                        <div className="text-left">
-                          <p className="font-semibold text-dark text-sm">
-                            Chat on WhatsApp
-                          </p>
-                          <p className="text-text-lighter text-xs">
-                            Quick response within minutes
-                          </p>
-                        </div>
-                      </button>
-
+                    <div className="mt-6">
                       <a
                         href={`mailto:${siteConfig.email}?subject=10%25 Discount - New Project Inquiry&body=Hi, I claimed the WELCOME10 discount. I'd like to discuss a project.`}
                         className="flex items-center gap-3 w-full p-4 bg-primary/5 border border-primary/10 rounded-xl hover:bg-primary/10 transition-colors"
@@ -195,7 +203,7 @@ export default function DiscountPopup() {
                         <Mail size={20} className="text-primary" />
                         <div className="text-left">
                           <p className="font-semibold text-dark text-sm">
-                            Send an Email
+                            Send us an Email
                           </p>
                           <p className="text-text-lighter text-xs">
                             We&apos;ll reply within 24 hours
