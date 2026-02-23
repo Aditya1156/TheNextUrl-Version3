@@ -5,7 +5,7 @@ export const siteConfig = {
     "Custom websites, ERP systems, and mobile apps for institutions and businesses. MSME registered digital agency based in Karnataka, India.",
   url: "https://thenexturl.in",
   phone: "+91 79757 51354",
-  email: "contact@thenexturl.in",
+  email: "contact.thenexturl@gmail.com",
   whatsapp: "https://wa.me/917975751354",
   location: "Karnataka, India",
   foundedYear: 2024,
