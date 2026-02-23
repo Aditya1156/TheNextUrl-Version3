@@ -7,6 +7,7 @@ import WhatsAppFloat from "@/components/ui/WhatsAppFloat";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import Preloader from "@/components/ui/Preloader";
 import StickyBar from "@/components/ui/StickyBar";
+import DiscountPopup from "@/components/ui/DiscountPopup";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -80,6 +81,7 @@ export default function RootLayout({
         <WhatsAppFloat />
         <ScrollToTop />
         <StickyBar />
+        <DiscountPopup />
       </body>
     </html>
   );

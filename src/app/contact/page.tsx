@@ -9,27 +9,52 @@ import {
   MapPin,
   ArrowUpRight,
   CheckCircle2,
+  Loader2,
 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { siteConfig } from "@/lib/config";
+import { emailjsConfig } from "@/lib/emailjs";
 import { images } from "@/lib/images";
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setStatus("sending");
+
     const form = e.currentTarget;
     const data = new FormData(form);
     const name = data.get("name") as string;
-    const message = data.get("message") as string;
+    const email = data.get("email") as string;
+    const phone = data.get("phone") as string;
     const service = data.get("service") as string;
+    const message = data.get("message") as string;
 
-    const whatsappMessage = `Hi, I'm ${name}. I'm interested in ${service}. ${message}`;
-    window.open(
-      `${siteConfig.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`,
-      "_blank"
-    );
-    setSubmitted(true);
+    // Send via EmailJS
+    try {
+      await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        {
+          from_name: name,
+          from_email: email,
+          phone: phone,
+          service: service,
+          message: message || "No additional message.",
+        },
+        emailjsConfig.publicKey
+      );
+      setStatus("sent");
+    } catch {
+      // If EmailJS fails, fall back to WhatsApp
+      const whatsappMessage = `Hi, I'm ${name} (${email}, ${phone}). I'm interested in ${service}. ${message}`;
+      window.open(
+        `${siteConfig.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`,
+        "_blank"
+      );
+      setStatus("sent");
+    }
   };
 
   return (
@@ -160,7 +185,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              {submitted ? (
+              {status === "sent" ? (
                 <div className="bg-light rounded-2xl p-12 text-center">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 size={32} className="text-green-600" />
@@ -171,12 +196,34 @@ export default function ContactPage() {
                   <p className="text-text-light mt-2">
                     We&apos;ll get back to you within 24 hours.
                   </p>
+                  <p className="text-text-lighter text-sm mt-4">
+                    You can also reach us on{" "}
+                    <a
+                      href={siteConfig.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary font-medium hover:underline"
+                    >
+                      WhatsApp
+                    </a>{" "}
+                    or{" "}
+                    <a
+                      href={`mailto:${siteConfig.email}`}
+                      className="text-primary font-medium hover:underline"
+                    >
+                      Email
+                    </a>{" "}
+                    for faster response.
+                  </p>
                 </div>
               ) : (
                 <div className="bg-white border border-border rounded-2xl p-8 shadow-sm">
-                  <h3 className="text-xl font-bold text-dark mb-6">
+                  <h3 className="text-xl font-bold text-dark mb-2">
                     Please Fill In The Information Below
                   </h3>
+                  <p className="text-text-lighter text-xs mb-6">
+                    Your message will be sent directly to our team via email.
+                  </p>
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <input
@@ -230,11 +277,27 @@ export default function ContactPage() {
                     />
                     <button
                       type="submit"
-                      className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3.5 rounded-lg font-semibold transition-all text-sm w-full justify-center"
+                      disabled={status === "sending"}
+                      className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-3.5 rounded-lg font-semibold transition-all text-sm w-full justify-center disabled:opacity-60 hover:shadow-lg hover:shadow-primary/25"
                     >
-                      Send Message
-                      <ArrowUpRight size={16} />
+                      {status === "sending" ? (
+                        <>
+                          <Loader2 size={16} className="animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <ArrowUpRight size={16} />
+                        </>
+                      )}
                     </button>
+
+                    {status === "error" && (
+                      <p className="text-red-500 text-xs text-center">
+                        Something went wrong. Please try again or contact us via WhatsApp.
+                      </p>
+                    )}
                   </form>
                 </div>
               )}
