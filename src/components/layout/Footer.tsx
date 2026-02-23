@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Linkedin, Instagram } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Solutions", href: "/solutions" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -57,7 +58,7 @@ export default function Footer() {
               <p className="text-sm leading-relaxed mb-6">
                 {siteConfig.description}
               </p>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-6">
                 <Image
                   src="/msmelogo.png"
                   alt="MSME Registered"
@@ -66,6 +67,26 @@ export default function Footer() {
                   className="h-10 w-auto brightness-0 invert opacity-70"
                 />
                 <span className="text-xs font-medium text-white/60">MSME Registered</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://www.linkedin.com/company/112434315"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-lg bg-white/10 hover:bg-primary flex items-center justify-center transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={16} />
+                </a>
+                <a
+                  href="https://www.instagram.com/thenexturl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-lg bg-white/10 hover:bg-primary flex items-center justify-center transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={16} />
+                </a>
               </div>
             </div>
 
