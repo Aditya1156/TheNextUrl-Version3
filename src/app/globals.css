@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #F26522;
-  --color-primary-dark: #d4551a;
-  --color-primary-light: #ff8a50;
+  --color-primary: #2563EB;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-light: #60a5fa;
   --color-dark: #111827;
   --color-dark-light: #1f2937;
   --color-dark-lighter: #374151;
@@ -50,8 +50,20 @@
 }
 
 
-html {
-  scroll-behavior: smooth;
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {

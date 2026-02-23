@@ -103,7 +103,7 @@ export default function Hero() {
               >
                 <path
                   d="M1 5.5C47 2 153 2 199 5.5"
-                  stroke="#F26522"
+                  stroke="var(--color-primary)"
                   strokeWidth="3"
                   strokeLinecap="round"
                 />

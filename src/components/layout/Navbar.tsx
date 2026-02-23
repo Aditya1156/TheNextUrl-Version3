@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import { navLinks, siteConfig } from "@/lib/config";
 
@@ -27,17 +28,17 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-black text-lg">N</span>
-            </div>
-            <span
-              className={`text-xl font-bold transition-colors ${
-                scrolled ? "text-dark" : "text-white"
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/brandlogo1.png"
+              alt={siteConfig.name}
+              width={160}
+              height={45}
+              className={`h-10 w-auto transition-all ${
+                scrolled ? "" : "brightness-0 invert"
               }`}
-            >
-              {siteConfig.name}
-            </span>
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

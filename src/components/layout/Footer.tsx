@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 
@@ -44,20 +45,27 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Brand */}
             <div>
-              <Link href="/" className="flex items-center gap-2 mb-6">
-                <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-white font-black text-lg">N</span>
-                </div>
-                <span className="text-xl font-bold text-white">
-                  {siteConfig.name}
-                </span>
+              <Link href="/" className="inline-block mb-6">
+                <Image
+                  src="/brandlogo1.png"
+                  alt={siteConfig.name}
+                  width={160}
+                  height={45}
+                  className="h-10 w-auto brightness-0 invert"
+                />
               </Link>
               <p className="text-sm leading-relaxed mb-6">
                 {siteConfig.description}
               </p>
-              <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full text-xs font-medium">
-                <span className="w-2 h-2 bg-green-400 rounded-full" />
-                MSME Registered
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/msmelogo.png"
+                  alt="MSME Registered"
+                  width={48}
+                  height={48}
+                  className="h-10 w-auto brightness-0 invert opacity-70"
+                />
+                <span className="text-xs font-medium text-white/60">MSME Registered</span>
               </div>
             </div>
 

@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/ui/WhatsAppFloat";
+import SpeedDial from "@/components/ui/SpeedDial";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import Preloader from "@/components/ui/Preloader";
 import StickyBar from "@/components/ui/StickyBar";
 import DiscountPopup from "@/components/ui/DiscountPopup";
+import JsonLd from "@/components/seo/JsonLd";
+import SmoothScroll from "@/components/ui/SmoothScroll";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,15 +77,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <JsonLd />
+      </head>
       <body className={`${inter.className} antialiased`}>
+        <SmoothScroll />
         <Preloader />
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <WhatsAppFloat />
+        <SpeedDial />
         <ScrollToTop />
         <StickyBar />
         <DiscountPopup />
+        <Analytics />
       </body>
     </html>
   );
