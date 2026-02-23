@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -18,10 +18,16 @@ import { images } from "@/lib/images";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    emailjs.init({ publicKey: emailjsConfig.publicKey });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("sending");
+    setErrorMsg("");
 
     const data = new FormData(e.currentTarget);
     const name = data.get("from_name") as string;
@@ -40,19 +46,14 @@ export default function ContactPage() {
           phone: phone,
           service: service,
           message: message || "No additional message.",
-        },
-        emailjsConfig.publicKey
+        }
       );
       setStatus("sent");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("EmailJS error:", error);
-      // Fall back to WhatsApp
-      const whatsappMessage = `Hi, I'm ${name} (${email}, ${phone}). I'm interested in ${service}. ${message}`;
-      window.open(
-        `${siteConfig.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`,
-        "_blank"
-      );
-      setStatus("sent");
+      const msg = error instanceof Error ? error.message : String(error);
+      setErrorMsg(msg);
+      setStatus("error");
     }
   };
 
@@ -196,21 +197,12 @@ export default function ContactPage() {
                     We&apos;ll get back to you within 24 hours.
                   </p>
                   <p className="text-text-lighter text-sm mt-4">
-                    You can also reach us on{" "}
-                    <a
-                      href={siteConfig.whatsapp}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary font-medium hover:underline"
-                    >
-                      WhatsApp
-                    </a>{" "}
-                    or{" "}
+                    You can also reach us at{" "}
                     <a
                       href={`mailto:${siteConfig.email}`}
                       className="text-primary font-medium hover:underline"
                     >
-                      Email
+                      {siteConfig.email}
                     </a>{" "}
                     for faster response.
                   </p>
@@ -293,9 +285,14 @@ export default function ContactPage() {
                     </button>
 
                     {status === "error" && (
-                      <p className="text-red-500 text-xs text-center">
-                        Something went wrong. Please try again or contact us via WhatsApp.
-                      </p>
+                      <div className="text-center">
+                        <p className="text-red-500 text-sm">
+                          Something went wrong. Please try again.
+                        </p>
+                        {errorMsg && (
+                          <p className="text-red-400 text-xs mt-1">{errorMsg}</p>
+                        )}
+                      </div>
                     )}
                   </form>
                 </div>
