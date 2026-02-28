@@ -16,6 +16,8 @@ export const navLinks = [
   { label: "Solutions", href: "/solutions" },
   { label: "Pricing", href: "/pricing" },
   { label: "Blog", href: "/blog" },
+  { label: "Careers", href: "/careers" },
+  { label: "Refer & Earn", href: "/refer" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -141,3 +143,73 @@ export const whyUsFeatures = [
     icon: "BadgeCheck",
   },
 ] as const;
+
+// ─── Careers Data ───────────────────────────────────────────────
+
+export type Department = "Development" | "Design" | "Marketing & Sales" | "SEO & Performance" | "Management";
+export type JobType = "Full-time" | "Part-time" | "Internship";
+
+export interface JobRole {
+  id: string;
+  title: string;
+  department: Department;
+  type: JobType;
+  location: string;
+  requirements: string[];
+  icon: string;
+}
+
+export interface CareerPerk {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface HiringStep {
+  step: string;
+  title: string;
+  description: string;
+}
+
+export const careerPerks: CareerPerk[] = [
+  { title: "Remote Friendly", description: "Work from anywhere in India. Flexible hybrid options available.", icon: "Wifi" },
+  { title: "Learning & Growth", description: "Access to courses, conferences, and mentorship programs.", icon: "GraduationCap" },
+  { title: "Modern Tech Stack", description: "Work with Next.js, React, TypeScript, and cloud-native tools.", icon: "Code2" },
+  { title: "Collaborative Culture", description: "Small team, big impact. Your ideas shape the product.", icon: "Users" },
+  { title: "Competitive Pay", description: "Market-aligned compensation with performance bonuses.", icon: "IndianRupee" },
+  { title: "Work-Life Balance", description: "Flexible hours, paid time off, and no crunch culture.", icon: "Heart" },
+];
+
+export const hiringSteps: HiringStep[] = [
+  { step: "01", title: "Apply Online", description: "Submit your application through our careers form with your details and portfolio." },
+  { step: "02", title: "Resume Review", description: "Our team reviews your application and shortlists candidates within 3-5 business days." },
+  { step: "03", title: "Interview", description: "A technical and cultural fit interview — remote-friendly via Google Meet." },
+  { step: "04", title: "Onboarding", description: "Welcome aboard! Get set up with tools, mentors, and your first project." },
+];
+
+export const jobRoles: JobRole[] = [
+  // ── Development (core service: websites, ERP, e-commerce, mobile apps) ──
+  { id: "frontend-dev", title: "Frontend Developer", department: "Development", type: "Full-time", location: "Remote / Karnataka", requirements: ["Proficiency in React, Next.js, and TypeScript", "Strong understanding of responsive design and Tailwind CSS", "Experience with Git and modern build tools", "1+ years of frontend development experience"], icon: "Monitor" },
+  { id: "backend-dev", title: "Backend Developer", department: "Development", type: "Full-time", location: "Remote / Karnataka", requirements: ["Experience with Node.js, Express, or similar frameworks", "Database design with PostgreSQL or MongoDB", "REST API development and authentication systems", "Understanding of cloud services (AWS/GCP/Vercel)"], icon: "Server" },
+  { id: "fullstack-dev", title: "Full Stack Developer", department: "Development", type: "Full-time", location: "Remote / Karnataka", requirements: ["Proficiency in React/Next.js and Node.js", "Experience building ERP systems or e-commerce platforms", "Understanding of CI/CD pipelines and deployment", "2+ years of full stack development experience"], icon: "Layers" },
+  { id: "mobile-dev", title: "Mobile App Developer", department: "Development", type: "Full-time", location: "Remote / Karnataka", requirements: ["Experience with React Native or Flutter", "Published apps on Play Store or App Store", "Understanding of mobile UI/UX patterns", "Knowledge of REST APIs and state management"], icon: "Smartphone" },
+  // ── Design (UI/UX for websites, apps, and digital products) ──
+  { id: "ui-ux-designer", title: "UI/UX Designer", department: "Design", type: "Full-time", location: "Remote / Karnataka", requirements: ["Proficiency in Figma or Adobe XD", "Strong portfolio of web and mobile design work", "Understanding of design systems and accessibility", "Experience with user research and wireframing"], icon: "Palette" },
+  // ── Marketing & Sales ──
+  { id: "marketing-manager", title: "Digital Marketing Manager", department: "Marketing & Sales", type: "Full-time", location: "Remote / Karnataka", requirements: ["Experience in digital marketing and campaign management", "Knowledge of SEO, SEM, and social media marketing", "Strong analytical skills with Google Analytics", "2+ years of marketing experience"], icon: "Megaphone" },
+  { id: "sales-executive", title: "Business Development Executive", department: "Marketing & Sales", type: "Full-time", location: "Karnataka, India", requirements: ["Experience in B2B sales or IT services client acquisition", "Excellent communication and negotiation skills", "Ability to generate leads and close deals", "Understanding of web development and digital products"], icon: "TrendingUp" },
+  { id: "sales-manager", title: "Sales Manager", department: "Marketing & Sales", type: "Full-time", location: "Karnataka, India", requirements: ["3+ years of sales management experience in IT/digital services", "Proven track record of meeting and exceeding sales targets", "Strong team leadership and client relationship skills", "Strategic planning and revenue forecasting ability"], icon: "Briefcase" },
+  { id: "tele-sales-executive", title: "Tele-Sales Executive", department: "Marketing & Sales", type: "Full-time", location: "Karnataka, India", requirements: ["Excellent verbal communication skills in English and Hindi/Kannada", "Experience in cold calling and lead generation", "Ability to explain digital products and services over phone", "Target-driven mindset with CRM proficiency"], icon: "PhoneCall" },
+  { id: "client-relationship-manager", title: "Client Relationship Manager", department: "Marketing & Sales", type: "Full-time", location: "Karnataka, India", requirements: ["Experience in client servicing or account management", "Strong interpersonal and presentation skills", "Ability to upsell and cross-sell digital services", "Proficiency in CRM tools and client communication platforms"], icon: "Handshake" },
+  { id: "tele-caller-female", title: "Tele-Caller (Female)", department: "Marketing & Sales", type: "Full-time", location: "Karnataka, India", requirements: ["Excellent communication skills in English, Hindi, or Kannada", "Experience in outbound/inbound calling or customer support", "Polite and professional phone etiquette", "Basic computer skills and familiarity with CRM tools"], icon: "Headphones" },
+  { id: "key-account-executive", title: "Key Account Executive", department: "Marketing & Sales", type: "Full-time", location: "Karnataka, India", requirements: ["Experience managing key client accounts in IT or digital services", "Strong negotiation and relationship-building skills", "Ability to identify upsell opportunities and drive renewals", "Excellent communication and reporting skills"], icon: "UserCheck" },
+  { id: "mba-intern", title: "MBA Intern", department: "Management", type: "Internship", location: "Remote / Karnataka", requirements: ["Currently pursuing or recently completed MBA degree", "Interest in digital services, marketing, or business strategy", "Strong analytical and communication skills", "Willingness to learn and take ownership of projects"], icon: "BookOpen" },
+  // ── SEO & Performance (core offering: 90+ Lighthouse, SEO optimization) ──
+  { id: "seo-specialist", title: "SEO Specialist", department: "SEO & Performance", type: "Full-time", location: "Remote / Karnataka", requirements: ["Proven experience with on-page and off-page SEO", "Proficiency with tools like Ahrefs, SEMrush, or Moz", "Technical SEO knowledge (Core Web Vitals, schema markup)", "Track record of improving organic search rankings"], icon: "Search" },
+  // ── Management (project delivery for clients) ──
+  { id: "project-manager", title: "Project Manager", department: "Management", type: "Full-time", location: "Remote / Karnataka", requirements: ["Experience managing software development projects", "Familiarity with Agile/Scrum methodologies", "Strong communication and client management skills", "Proficiency with project tools (Jira, Notion, or similar)"], icon: "ClipboardList" },
+];
+
+export const departments: Department[] = ["Development", "Design", "Marketing & Sales", "SEO & Performance", "Management"];
+
+export const experienceLevels = ["Fresher", "1-2 years", "3-5 years", "5+ years"] as const;

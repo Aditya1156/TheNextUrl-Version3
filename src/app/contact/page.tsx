@@ -21,7 +21,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+]?[\d\s()-]{7,15}$/;
 
 function sanitize(str: string): string {
-  return str.replace(/[<>]/g, "").trim();
+  return str.replace(/[<>"'`&;{}]/g, "").trim();
 }
 
 export default function ContactPage() {
