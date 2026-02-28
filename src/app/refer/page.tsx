@@ -12,6 +12,7 @@ import {
   Smartphone,
   ShoppingCart,
   HelpCircle,
+  Percent,
 } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import BlurText from "@/components/ui/BlurText";
@@ -35,6 +36,14 @@ const referralSteps = [
     description:
       "Once the project is confirmed, you receive a referral bonus. The bigger the project, the bigger the reward.",
   },
+];
+
+const commissionSlabs = [
+  { range: "Below ₹5,000", rate: "10%", highlight: false },
+  { range: "₹5,000 – ₹15,000", rate: "15%", highlight: false },
+  { range: "₹15,000 – ₹35,000", rate: "20%", highlight: true },
+  { range: "₹35,000 – ₹50,000", rate: "25%", highlight: false },
+  { range: "Above ₹50,000", rate: "30%", highlight: false },
 ];
 
 const whatYouCanRefer = [
@@ -67,7 +76,7 @@ const faqs = [
   },
   {
     q: "How much can I earn?",
-    a: "Rewards depend on the project size. Larger projects mean bigger bonuses. We'll share the details when the referral is confirmed.",
+    a: "You earn 10% on projects below ₹5,000, 15% on ₹5,000–₹15,000, 20% on ₹15,000–₹35,000, 25% on ₹35,000–₹50,000, and 30% on projects above ₹50,000.",
   },
   {
     q: "When do I get paid?",
@@ -175,6 +184,73 @@ export default function ReferPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Commission Plan ── */}
+      <section className="py-24 bg-dark relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-dark to-dark-light" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mt-4">
+              Commission <span className="gradient-text">Plan</span>
+            </h2>
+            <BlurText
+              text="The bigger the project, the more you earn."
+              delay={100}
+              animateBy="words"
+              direction="bottom"
+              className="text-white/50 mt-4 max-w-2xl mx-auto justify-center"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {commissionSlabs.map((slab, index) => (
+              <motion.div
+                key={slab.range}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className={`rounded-2xl p-6 text-center border transition-all ${
+                  slab.highlight
+                    ? "bg-primary/10 border-primary/30 scale-105"
+                    : "bg-white/5 border-white/10 hover:border-primary/20"
+                }`}
+              >
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+                    slab.highlight ? "bg-primary" : "bg-white/10"
+                  }`}
+                >
+                  <Percent
+                    size={18}
+                    className={slab.highlight ? "text-white" : "text-primary"}
+                  />
+                </div>
+                <p className="text-2xl sm:text-3xl font-bold text-white">
+                  {slab.rate}
+                </p>
+                <p className="text-white/50 text-xs mt-2">{slab.range}</p>
+                {slab.highlight && (
+                  <span className="inline-block mt-3 text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    Popular
+                  </span>
+                )}
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+            className="text-white/40 text-xs text-center mt-8"
+          >
+            Commission is calculated on the total confirmed project value.
+            Paid within 7 business days of project kickoff.
+          </motion.p>
         </div>
       </section>
 
